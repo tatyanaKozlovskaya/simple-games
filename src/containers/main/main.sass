@@ -1,0 +1,28 @@
+
+.games-list 
+  max-width: 1300px
+  display: flex
+  margin: 0 auto
+  padding: 100px 0
+a
+  font-size: $normal-font-size
+  color: $black-color
+  text-decoration: none
+  font-family: sans-serif;
+
+.games-list__item 
+  display: block
+  background: $pink-color
+  width: 340px
+  height: 240px
+  border-radius: 10px
+  margin: 20px
+  cursor: pointer
+  transition-duration: .2s
+  display: flex
+  align-items: center
+  justify-content: center
+  &--new
+    background: $light-pink-color
+    &:hover
+      transform: scale(1.1)

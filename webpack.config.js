@@ -5,15 +5,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var config = {
   devServer: {
+    contentBase: path.join(__dirname, 'build'),
     host: 'localhost',
-    port: 3000, 
+    port: 3000,
     open: true,
+    publicPath: '/',
+    historyApiFallback: true,
   },
   entry: './src/index.js',
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
-    publicPath: '/',
+    publicPath: './',
     path: path.resolve(__dirname, 'build'),
   },
   module: {
@@ -35,7 +38,7 @@ var config = {
             loader: 'sass-loader',
             options: {
               indentWidth: 2,
-              data: '@import "variables";',
+              data: '@import "variables"; @import "common";',
               includePaths: ['./src/styles'],
             },
           },
@@ -60,12 +63,15 @@ var config = {
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
-    new HtmlWebpackPlugin({ template: './public/index.html', favicon: './public/favicon.ico' }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      favicon: './public/favicon.ico',
+    }),
   ],
 
   //...
 };
 
-module.exports = env => {
+module.exports = (env) => {
   return config;
 };

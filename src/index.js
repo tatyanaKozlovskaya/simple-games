@@ -1,21 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/common.sass';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-const App = () => {
-  return (
-    <div className="games-list">
-      <a
-        className="games-list__item games-list__item--happy-cat"
-        href="/happy-cat"
-      />
-    </div>
-  );
-};
+import Main from "./containers/main"
+import HappyCat from './containers/happyCat';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <Switch>
+      <Route path="/happy-cat">
+        <HappyCat />
+      </Route>
+      
+      <Route path="/">
+        <Main />
+      </Route>
+    </Switch>
+  </Router>,
   document.getElementById('root'),
 );
