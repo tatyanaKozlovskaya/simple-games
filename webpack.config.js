@@ -4,23 +4,26 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var config = {
+  devServer: {
+    host: 'localhost',
+    port: 3000, 
+    open: true,
+  },
   entry: './src/index.js',
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
     publicPath: '/',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        include: /src/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
         },
       },
       {
@@ -31,10 +34,9 @@ var config = {
           {
             loader: 'sass-loader',
             options: {
-              sassOptions: {
-                indentWidth: 4,
-                includePaths: ['src/styles/common.sass'],
-              },
+              indentWidth: 2,
+              data: '@import "variables";',
+              includePaths: ['./src/styles'],
             },
           },
         ],
@@ -65,24 +67,5 @@ var config = {
 };
 
 module.exports = env => {
-  const isDevelopment = env && env.NODE_ENV === 'development';
-  if (isDevelopment) {
-    config.devtool = 'source-map';
-    config.watchOptions = {
-      ignored: /node_modules/,
-    };
-    config.devServer = {
-      contentBase: './dist',
-      port:3000,
-      open:true
-    };
-  }
-
-  if (!isDevelopment) {
-    //...
-  }
-
-  config.mode = isDevelopment ? 'development' : 'production';
-
   return config;
 };
