@@ -42,7 +42,7 @@ var config = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|ico)$/,
         use: ['file-loader'],
       },
     ],
@@ -60,7 +60,7 @@ var config = {
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
-    new HtmlWebpackPlugin({ template: './public/index.html' }),
+    new HtmlWebpackPlugin({ template: './public/index.html', favicon: './public/favicon.ico' }),
   ],
 
   //...

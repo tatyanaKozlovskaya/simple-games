@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/common.sass';
 
-console.log('react');
-
 const App = () => {
   return (
     <div className="games-list">
