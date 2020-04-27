@@ -3,7 +3,7 @@ import './../happyCatStyle.sass';
 import './finalScreen.sass';
 
 const finalScreen = () => {
-  return <div className="happy-cat-final-screen">Победа!</div>;
+  return <div className="happy-cat-final-screen">You win!</div>;
 };
 
 export default finalScreen;
