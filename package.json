@@ -1,7 +1,6 @@
 {
   "name": "simple-games-for-fun",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "start": "webpack-dev-server",
     "dev": "webpack-dev-server",
