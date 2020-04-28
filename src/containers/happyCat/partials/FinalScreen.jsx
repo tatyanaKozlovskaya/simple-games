@@ -11,7 +11,7 @@ const finalScreen = ({ score, restartAction }) => {
     <div className="happy-cat-final-screen">
       <div className='happy-cat-section'>
         <h1>{result}</h1>
-        <Button text={'PlayAgain!'} clickHandler={restartAction} />
+        <Button text={'Play Again!'} clickHandler={restartAction} />
       </div>
     </div>
   );
