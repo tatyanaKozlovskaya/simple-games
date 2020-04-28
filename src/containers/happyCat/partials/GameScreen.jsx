@@ -18,8 +18,8 @@ class gameScreen extends Component {
   render() {
     return (
       <div className="happy-cat-game-screen">
-        <Button text="left" clickHandler={() => this.changeScore('left')} />
-        <Button text="right" clickHandler={() => this.changeScore('right')} />
+        <Button key='2' text="left" clickHandler={() => this.changeScore('left')} />
+        <Button key='3' text="right" clickHandler={() => this.changeScore('right')} />
       </div>
     );
   }

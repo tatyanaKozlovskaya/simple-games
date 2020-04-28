@@ -4,6 +4,7 @@
   display: flex
   margin: 0 auto
   padding: 100px 0
+  flex-wrap: wrap
 a
   font-size: $font-size-normal
   color: $color-black
@@ -26,3 +27,15 @@ a
     background: $color-light-pink
   &:hover
     transform: scale(1.1)
+
+@media all and (max-width:450px)
+  .games-list 
+    max-width: 100%
+    padding: 24px 16px
+    flex-direction: column
+
+  .games-list__item 
+    width: 100%
+    height: 200px
+    border-radius: 10px
+    margin: 16px 0
