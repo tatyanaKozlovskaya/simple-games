@@ -1,9 +1,20 @@
 import React from 'react';
+
 import './../happyCatStyle.sass';
 import './finalScreen.sass';
 
-const finalScreen = () => {
-  return <div className="happy-cat-final-screen">You win!</div>;
+import Button from './../components/Button';
+
+const finalScreen = ({ score, restartAction }) => {
+  const result = score ? 'You win!' : 'You loose :(';
+  return (
+    <div className="happy-cat-final-screen">
+      <div className='happy-cat-section'>
+        <h1>{result}</h1>
+        <Button text={'PlayAgain!'} clickHandler={restartAction} />
+      </div>
+    </div>
+  );
 };
 
 export default finalScreen;
