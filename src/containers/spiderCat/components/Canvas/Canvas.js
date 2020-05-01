@@ -1,4 +1,4 @@
-import React, { Component, createRef, forwardRef } from 'react';
+import React, { Component, createRef } from 'react';
 import player from './../../images/playerMin.png';
 
 const PLAYER = {
