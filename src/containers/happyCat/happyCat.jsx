@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import FullHeightWrapper from './../../components/FullHeightWrapper';
+
 import './happyCatStyle.sass';
 
 import StartScreen from './partials/startScreen';
@@ -43,7 +45,7 @@ class HappyCat extends Component {
     } = this.props;
 
     return currScreenName ? (
-      <div className="happy-cat">
+      <FullHeightWrapper cn="happy-cat">
         {React.cloneElement(SCREENS[currScreenName].element, {
           currScreenName,
           score,
@@ -53,9 +55,9 @@ class HappyCat extends Component {
           changeCurrentScreenAction,
           restartAction,
         })}
-      </div>
+      </FullHeightWrapper>
     ) : (
-      <div>Loading...</div>
+      <FullHeightWrapper>Loading...</FullHeightWrapper>
     );
   }
 }
@@ -86,6 +88,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HappyCat);
+
+HappyCat.displayName = 'HappyCat';
 
 HappyCat.defaultProps = {
   currentScreen: 'startScreen',

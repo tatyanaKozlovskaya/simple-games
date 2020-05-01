@@ -1,8 +1,8 @@
 .happy-cat-button
   position: relative
   margin: 0 auto
-  width: 150px
-  padding: 16px 52px
+  width: 200px
+  padding: 16px 30px
   background: $color-pink
   display: flex
   align-items: center
@@ -14,8 +14,24 @@
   font-size: $font-size-large
   font-weight: 600
   color: $color-white
-  box-shadow: 0px 0px 40px 20px #ffc0cb3d;
-  &:hover
-    background: $color-green
-    border: solid $color-active-green 4px
-    box-shadow: 0px 0px 50px 30px  rgba(0, 232, 0, 0.4)
+  box-shadow: 0px 0px 40px 20px #ffc0cb3d
+  outline: none !important
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important
+
+
+// smartphones, touchscreens
+@media (hover: none)
+  .happy-cat-button
+    &:focus
+    &:active
+      background: $color-green
+      border: solid $color-active-green 4px
+      box-shadow: 0px 0px 50px 30px  rgba(0, 232, 0, 0.4)
+
+
+@media (hover: hover)
+  .happy-cat-button
+    &:hover
+      background: $color-green
+      border: solid $color-active-green 4px
+      box-shadow: 0px 0px 50px 30px  rgba(19, 56, 19, 0.4)
