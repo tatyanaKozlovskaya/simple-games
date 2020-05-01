@@ -6,7 +6,7 @@ import {
 } from './spiderCatConstants';
 
 const initialState = {
-  currScreenName: 'startScreen',
+  currScreenName: 'gameScreen',
   score: 0,
   basket: [],
 };

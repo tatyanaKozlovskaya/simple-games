@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
 import { ITEMS } from '../store.js';
 
@@ -6,8 +6,14 @@ import '../spiderCatStyle.sass';
 import './gameScreen.sass';
 
 import ScoreTable from '../components/ScoreTable';
+import Canvas from '../components/Canvas';
 
 class gameScreen extends Component {
+  constructor() {
+    super();
+    this.wrapper = createRef();
+  }
+
   changeScore = (item) => {
     const { changeScoreAction, score } = this.props;
     const newScore = score + item.influence;
@@ -24,23 +30,14 @@ class gameScreen extends Component {
   };
 
   render() {
-    const { score } = this.props;
+    const { score, height, width } = this.props;
     return (
-      <div className="spider-cat-game-screen">
+      <div className="spider-cat-game-screen" ref={this.wrapper}>
         <div className="spider-cat-wrapper flex-container flex-container--wrap">
           <ScoreTable score={score} />
         </div>
-        <div className="spider-cat-wrapper flex-container flex-container--wrap">
-          {Object.values(ITEMS).map((item) => (
-            <div
-              className="game-item"
-              key={item.name}
-              onClick={() => this.changeScore(item)}
-            >
-              {item.name}
-            </div>
-          ))}
-        </div>
+
+        <Canvas height={height} width={width} />
       </div>
     );
   }
