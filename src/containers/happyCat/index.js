@@ -1,3 +1,3 @@
-import HappyCat from './happyCat';
+import HappyCat from './HappyCat';
 
 export default HappyCat;
