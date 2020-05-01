@@ -4,19 +4,19 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import happyCatReducer from './containers/happyCat/happyCatReducer';
+import spiderCatReducer from './containers/spiderCat/spiderCatReducer';
 
 import Main from './containers/main';
-import HappyCat from './containers/happyCat';
+import SpiderCat from './containers/spiderCat';
 
-const store = createStore(happyCatReducer);
+const store = createStore(spiderCatReducer);
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route path="/happy-cat">
-          <HappyCat />
+        <Route path="/spider-cat">
+          <SpiderCat />
         </Route>
 
         <Route path="/">

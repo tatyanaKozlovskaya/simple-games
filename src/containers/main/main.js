@@ -6,8 +6,8 @@ import './main.sass';
 const Main = () => {
   return (
     <div className="games-list">
-      <Link to="/happy-cat">
-        <div className="games-list__item games-list__item--happy-cat" />
+      <Link to="/spider-cat">
+        <div className="games-list__item games-list__item--spider-cat" />
       </Link>
 
       <Link to="/">

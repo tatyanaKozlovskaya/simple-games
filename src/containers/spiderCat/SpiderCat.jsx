@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import FullHeightWrapper from '../../components/FullHeightWrapper';
 
-import './happyCatStyle.sass';
+import './spiderCatStyle.sass';
 
 import StartScreen from './partials/startScreen';
 import GameScreen from './partials/gameScreen';
@@ -15,7 +15,7 @@ import {
   addItemToBasketAction,
   changeCurrentScreenAction,
   restartAction,
-} from './happyCatActions';
+} from './spiderCatActions';
 
 const SCREENS = {
   startScreen: {
@@ -32,7 +32,7 @@ const SCREENS = {
   },
 };
 
-class HappyCat extends Component {
+class SpiderCat extends Component {
   render() {
     const {
       currScreenName,
@@ -45,7 +45,7 @@ class HappyCat extends Component {
     } = this.props;
 
     return currScreenName ? (
-      <FullHeightWrapper cn="happy-cat">
+      <FullHeightWrapper cn="spider-cat">
         {React.cloneElement(SCREENS[currScreenName].element, {
           currScreenName,
           score,
@@ -87,18 +87,18 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HappyCat);
+export default connect(mapStateToProps, mapDispatchToProps)(SpiderCat);
 
-HappyCat.displayName = 'HappyCat';
+SpiderCat.displayName = 'SpiderCat';
 
-HappyCat.defaultProps = {
+SpiderCat.defaultProps = {
   currentScreen: 'startScreen',
 };
 
-HappyCat.propTypes = {
+SpiderCat.propTypes = {
   basket: PropTypes.arrayOf(
     PropTypes.shape({
-      type: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
       influence: PropTypes.number.isRequired,
     }),
   ).isRequired,

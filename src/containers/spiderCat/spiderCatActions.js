@@ -3,7 +3,7 @@ import {
   RESTART,
   ADD_ITEM_TO_BASKET,
   CHANGE_CURRENT_SCREEN,
-} from './happyCatConstants';
+} from './spiderCatConstants';
 
 export const changeScoreAction = ({ score, currScreenName }) => {
   return {

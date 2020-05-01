@@ -3,7 +3,7 @@ import {
   RESTART,
   ADD_ITEM_TO_BASKET,
   CHANGE_CURRENT_SCREEN,
-} from './happyCatConstants';
+} from './spiderCatConstants';
 
 const initialState = {
   currScreenName: 'startScreen',
@@ -11,7 +11,7 @@ const initialState = {
   basket: [],
 };
 
-export default function happyCatReducer(state = initialState, action) {
+export default function spiderCatReducer(state = initialState, action) {
   switch (action.type) {
     case CHANGE_SCORE: {
       const { score, currScreenName } = action.payload;
