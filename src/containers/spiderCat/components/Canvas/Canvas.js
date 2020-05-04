@@ -1,12 +1,6 @@
 import React, { Component, createRef } from 'react';
-import player from './../../images/playerMin.png';
 
-const PLAYER = {
-  width: 60,
-  height: 83,
-  img: player,
-  step: 30,
-};
+import { PLAYER, ITEMS } from './../../store';
 
 const MAX_WIDTH = 1000;
 
@@ -14,14 +8,8 @@ class Canvas extends Component {
   constructor() {
     super();
     this.canvas = createRef();
-    this.state = { playerPositionX: 0 };
+    this.state = { playerPositionX: 0, items: [] };
   }
-
-  getWidth = (w) => {
-    const width = w || this.props.width;
-    const canvasWidth = width > MAX_WIDTH ? MAX_WIDTH : width;
-    return canvasWidth;
-  };
 
   componentDidMount = () => {
     const canv = this.canvas.current;
@@ -35,7 +23,61 @@ class Canvas extends Component {
         playerPositionX: position,
         startPosition: position,
       });
+
+      this.init();
+      this.generateItems();
+      this.updateItemsPositions();
     }
+  };
+
+  componentWillUnmount = () => {
+    setTimeout(() => {
+      clearInterval(this.generatorInterval);
+      clearInterval(this.drawInterval);
+      clearInterval(this.updatePositionsInterval);
+    }, 3000);
+  };
+
+  generateItems = () => {
+    this.generatorInterval = setInterval(() => {
+      const newItem = { ...this.getRandomElement(Object.values(ITEMS)) };
+      const minPositionX = PLAYER.width / 2;
+      const maxPositionX = this.getWidth() - PLAYER.width / 2;
+
+      newItem.img = this.playerImg;
+      newItem.positionX = this.getRandomNumber(minPositionX, maxPositionX);
+      newItem.positionY = 0;
+
+      this.setState({ items: [...this.state.items, newItem] });
+    }, 3000);
+  };
+
+  updateItemsPositions = () => {
+    this.updatePositionsInterval = setInterval(() => {
+      const newItems = this.state.items.map((el) => {
+        el.positionX = el.positionX;
+        el.positionY = el.positionY + 0.5;
+        return el;
+      });
+
+      this.setState({ items: newItems });
+    }, 3);
+  };
+
+  getRandomElement = (arr) => {
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    return arr[randomIndex];
+  };
+
+  getRandomNumber = (min, max) => {
+    const randomNumber = min + Math.random() * (max + 1 - min);
+    return Math.floor(randomNumber);
+  };
+
+  getWidth = (w) => {
+    const width = w || this.props.width;
+    const canvasWidth = width > MAX_WIDTH ? MAX_WIDTH : width;
+    return canvasWidth;
   };
 
   touchStartHandler = (e) => {
@@ -56,6 +98,10 @@ class Canvas extends Component {
     this.moveByTouch(playerGoToLeft, playerGoToRight, position);
   };
 
+  touchEndHandler = (e) => {
+    // e.preventDefault();
+  };
+
   moveByTouch = (playerGoToLeft, playerGoToRight, position, isStart) => {
     if (
       (playerGoToRight && !this.isItInRightCorner(position)) ||
@@ -66,10 +112,6 @@ class Canvas extends Component {
         ...(isStart && { isStart: position }),
       });
     }
-  };
-
-  touchEndHandler = (e) => {
-    // e.preventDefault();
   };
 
   keyDownHandler = (e) => {
@@ -104,52 +146,67 @@ class Canvas extends Component {
     });
   };
 
-  draw = ({ width, height, playerPositionX }) => {
-    const imgWidth = PLAYER.width;
-    const positionX = playerPositionX
-      ? playerPositionX
-      : width / 2 - imgWidth / 2;
-
-    this.drawPlayer({
-      width: width,
-      height: height,
-      playerPositionX: positionX,
-    });
+  init = () => {
+    this.playerImg = new Image();
+    this.playerImg.onload = () => {
+      this.drawInterval = setInterval(this.draw, 9);
+    };
+    this.playerImg.src = PLAYER.img;
   };
 
-  drawPlayer = ({ width, height, playerPositionX }) => {
-    const img = new Image();
+  draw = () => {
+    this.ctx.clearRect(0, 0, this.getWidth(), this.props.height);
+    this.drawPlayer();
+    this.drawItems();
+  };
+
+  drawPlayer = () => {
     const imgWidth = PLAYER.width;
     const imgHeight = PLAYER.height;
-    const dx = playerPositionX;
-    const dy = height - imgHeight - 10;
+    const dy = this.props.height - imgHeight - 10;
 
-    img.onload = () => {
-      this.ctx.clearRect(0, dy, width, imgHeight);
-      this.ctx.drawImage(
-        img,
-        0,
-        0,
-        imgWidth,
-        imgHeight,
-        dx,
-        dy,
-        imgWidth,
-        imgHeight,
-      );
-    };
-    img.src = PLAYER.img;
+    this.ctx.clearRect(0, dy, this.getWidth(), imgHeight);
+    this.ctx.drawImage(
+      this.playerImg,
+      0,
+      0,
+      imgWidth,
+      imgHeight,
+      this.state.playerPositionX,
+      dy,
+      imgWidth,
+      imgHeight,
+    );
+  };
+
+  drawItems = () => {
+    const { items } = this.state;
+    items &&
+      items.length &&
+      items.forEach((item) => {
+        const imgWidth = PLAYER.width;
+        const imgHeight = PLAYER.height;
+
+        const dx = item.positionX;
+        const dy = item.positionY;
+
+        this.ctx.drawImage(
+          item.img,
+          0,
+          0,
+          imgWidth,
+          imgHeight,
+          dx,
+          dy,
+          imgWidth,
+          imgHeight,
+        );
+      });
   };
 
   render() {
     const { height } = this.props;
-    const { playerPositionX } = this.state;
     const canvasWidth = this.getWidth();
-
-    canvasWidth &&
-      height &&
-      this.draw({ width: canvasWidth, height, playerPositionX });
-
     return (
       <div
         onKeyDown={this.keyDownHandler}
