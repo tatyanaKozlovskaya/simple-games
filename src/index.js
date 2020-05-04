@@ -6,8 +6,6 @@ import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
 
 import { routerReducer } from 'react-router-redux';
 
-import { createBrowserHistory } from 'history';
-
 import spiderCatReducer from './containers/spiderCat/spiderCatReducer';
 
 import Main from './containers/main';
@@ -20,13 +18,9 @@ const store = createStore(
   }),
 );
 
-const history = createBrowserHistory({
-  basename: 'simple-games/',
-});
-
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter history={history}>
+    <BrowserRouter basename="/simple-games/">
       <Switch>
         <Route path="/spider-cat">
           <SpiderCat />
