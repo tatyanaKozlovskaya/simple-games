@@ -20,7 +20,7 @@ const store = createStore(
 );
 
 const history = createBrowserHistory({
-  basename: '/',
+  basename: '/simple-games/',
 });
 
 ReactDOM.render(
