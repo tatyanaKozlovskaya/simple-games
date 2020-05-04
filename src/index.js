@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router';
+import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
+
 import { routerReducer } from 'react-router-redux';
 
 import { createBrowserHistory } from 'history';
@@ -25,15 +26,17 @@ const history = createBrowserHistory({
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/spider-cat">
-        <SpiderCat />
-      </Route>
+    <BrowserRouter history={history}>
+      <Switch>
+        <Route path="/spider-cat">
+          <SpiderCat />
+        </Route>
 
-      <Route path="/">
-        <Main />
-      </Route>
-    </Router>
+        <Route path="/">
+          <Main />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root'),
 );

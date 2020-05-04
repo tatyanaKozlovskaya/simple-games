@@ -21,7 +21,7 @@ const Main = () => {
           coming soon
         </div>
       </Link>
-      <div>version {1.4}</div>
+      <div>version {1.5}</div>
     </div>
   );
 };
