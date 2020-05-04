@@ -1,6 +1,7 @@
 {
   "name": "simple-games-for-fun",
   "version": "0.1.0",
+  "homepage": "https://tatyanakozlovskaya.github.io/simple-games/",
   "scripts": {
     "start": "webpack-dev-server",
     "dev": "webpack-dev-server",
@@ -29,6 +30,7 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
+    "react-router-redux": "^4.0.8",
     "redux": "^4.0.5",
     "sass": "^1.22.10",
     "sass-loader": "^7.2.0"

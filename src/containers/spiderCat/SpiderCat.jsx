@@ -62,7 +62,9 @@ class SpiderCat extends Component {
   }
 }
 
-const mapStateToProps = ({ currScreenName, score, basket }) => {
+const mapStateToProps = ({
+  spiderCatReducer: { currScreenName, score, basket },
+}) => {
   return {
     currScreenName,
     score,
