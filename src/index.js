@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
+import { HashRouter, Route, useParams } from 'react-router-dom';
 
 import { routerReducer } from 'react-router-redux';
 
@@ -20,7 +20,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename="simple-games/">
+    <HashRouter basename="simple-games/">
       <Route path="/spider-cat">
         <SpiderCat />
       </Route>
@@ -28,7 +28,7 @@ ReactDOM.render(
       <Route path="/">
         <Main />
       </Route>
-    </BrowserRouter>
+    </HashRouter>
   </Provider>,
   document.getElementById('root'),
 );
