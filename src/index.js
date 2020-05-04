@@ -20,16 +20,14 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename="/simple-games/">
-      <Switch>
-        <Route path="/spider-cat">
-          <SpiderCat />
-        </Route>
+    <BrowserRouter basename="simple-games/">
+      <Route path="/spider-cat">
+        <SpiderCat />
+      </Route>
 
-        <Route path="/">
-          <Main />
-        </Route>
-      </Switch>
+      <Route path="/">
+        <Main />
+      </Route>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root'),
