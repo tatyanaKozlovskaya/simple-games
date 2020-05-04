@@ -13,7 +13,7 @@ const store = createStore(spiderCatReducer);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <Router basename="./simple-games/">
       <Switch>
         <Route path="/spider-cat">
           <SpiderCat />
