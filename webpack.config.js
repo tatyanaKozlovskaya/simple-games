@@ -16,8 +16,9 @@ var config = {
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
-    publicPath: './',
+    publicPath: './simple-games/',
     path: path.resolve(__dirname, 'build'),
+    sourcePrefix: 'simple-games/',
   },
   module: {
     rules: [

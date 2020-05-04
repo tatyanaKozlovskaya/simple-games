@@ -5,7 +5,7 @@ const PLAYER = {
   width: 60,
   height: 83,
   img: player,
-  step: 20,
+  step: 30,
 };
 
 const MAX_WIDTH = 1000;
