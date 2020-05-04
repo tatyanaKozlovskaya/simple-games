@@ -14,11 +14,11 @@ class Canvas extends Component {
   constructor() {
     super();
     this.canvas = createRef();
-    this.state = { playerDirectionOffsetX: 0 };
+    this.state = { playerPositionX: 0 };
   }
 
-  getWidth = () => {
-    const { width } = this.props;
+  getWidth = (w) => {
+    const width = w || this.props.width;
     const canvasWidth = width > MAX_WIDTH ? MAX_WIDTH : width;
     return canvasWidth;
   };
@@ -28,90 +28,100 @@ class Canvas extends Component {
     this.ctx = canv.getContext('2d');
   };
 
-  touchStartHandler = (e) => {
-    const clientX = e.touches[0].clientX;
-    this.setState({
-      startPosition: clientX,
-    });
+  componentDidUpdate = (prevProps) => {
+    if (this.props.width !== prevProps.width) {
+      const position = this.getWidth(this.props.width) / 2 - PLAYER.width / 2;
+      this.setState({
+        playerPositionX: position,
+        startPosition: position,
+      });
+    }
   };
 
-  touchMoveHandler = (e) => {
-    const { width } = this.props;
+  touchStartHandler = (e) => {
     const { startPosition } = this.state;
     const position = e.touches[0].clientX;
-    const newPlayerDirectionOffsetX = width / 2 - position;
     const playerGoToRight = startPosition < position;
     const playerGoToLeft = startPosition > position;
 
+    this.moveByTouch(playerGoToLeft, playerGoToRight, position, true);
+  };
+
+  touchMoveHandler = (e) => {
+    const { startPosition } = this.state;
+    const position = e.touches[0].clientX;
+    const playerGoToRight = startPosition < position;
+    const playerGoToLeft = startPosition > position;
+
+    this.moveByTouch(playerGoToLeft, playerGoToRight, position);
+  };
+
+  moveByTouch = (playerGoToLeft, playerGoToRight, position, isStart) => {
     if (
-      (playerGoToRight &&
-        !this.isItInRightCorner(-newPlayerDirectionOffsetX, true)) ||
-      (playerGoToLeft &&
-        !this.isItInLeftCorner(-newPlayerDirectionOffsetX, true))
+      (playerGoToRight && !this.isItInRightCorner(position)) ||
+      (playerGoToLeft && !this.isItInLeftCorner(position))
     ) {
       this.setState({
-        playerDirectionOffsetX: -newPlayerDirectionOffsetX,
+        playerPositionX: position,
+        ...(isStart && { isStart: position }),
       });
     }
-    e.stopPropagation();
   };
 
   touchEndHandler = (e) => {
-    console.log('end', e.touches);
     // e.preventDefault();
   };
 
   keyDownHandler = (e) => {
-    const { playerDirectionOffsetX } = this.state;
+    const { playerPositionX } = this.state;
 
     if (e.keyCode == '37') {
-      !this.isItInLeftCorner(playerDirectionOffsetX) && this.playerMoveLeft();
+      !this.isItInLeftCorner(playerPositionX - PLAYER.step) &&
+        this.playerMoveLeft();
     } else if (e.keyCode == '39') {
-      !this.isItInRightCorner(playerDirectionOffsetX) && this.playerMoveRight();
+      !this.isItInRightCorner(playerPositionX + PLAYER.step) &&
+        this.playerMoveRight();
     }
   };
 
-  isItInRightCorner = (playerDirectionOffsetX, isMobile) => {
-    return (
-      Math.abs(playerDirectionOffsetX) +
-        (isMobile ? PLAYER.width / 2 : PLAYER.width) >
-        this.getWidth() / 2 && playerDirectionOffsetX > 0
-    );
+  isItInRightCorner = (playerPositionX) => {
+    return playerPositionX >= this.getWidth() - PLAYER.width;
   };
 
-  isItInLeftCorner = (playerDirectionOffsetX, isMobile) => {
-    return (
-      Math.abs(playerDirectionOffsetX) +
-        (isMobile ? PLAYER.width / 2 : PLAYER.width) >
-        this.getWidth() / 2 && playerDirectionOffsetX < 0
-    );
+  isItInLeftCorner = (playerPositionX) => {
+    return playerPositionX <= 0;
   };
 
   playerMoveLeft = () => {
     this.setState({
-      playerDirectionOffsetX: this.state.playerDirectionOffsetX - PLAYER.step,
+      playerPositionX: this.state.playerPositionX - PLAYER.step,
     });
   };
 
   playerMoveRight = () => {
     this.setState({
-      playerDirectionOffsetX: this.state.playerDirectionOffsetX + PLAYER.step,
+      playerPositionX: this.state.playerPositionX + PLAYER.step,
     });
   };
 
-  draw = ({ width, height, playerDirectionOffsetX }) => {
+  draw = ({ width, height, playerPositionX }) => {
+    const imgWidth = PLAYER.width;
+    const positionX = playerPositionX
+      ? playerPositionX
+      : width / 2 - imgWidth / 2;
+
     this.drawPlayer({
       width: width,
       height: height,
-      playerDirectionOffsetX,
+      playerPositionX: positionX,
     });
   };
 
-  drawPlayer = ({ width, height, playerDirectionOffsetX }) => {
+  drawPlayer = ({ width, height, playerPositionX }) => {
     const img = new Image();
     const imgWidth = PLAYER.width;
     const imgHeight = PLAYER.height;
-    const dx = width / 2 - imgWidth / 2 + playerDirectionOffsetX;
+    const dx = playerPositionX;
     const dy = height - imgHeight - 10;
 
     img.onload = () => {
@@ -133,12 +143,12 @@ class Canvas extends Component {
 
   render() {
     const { height } = this.props;
-    const { playerDirectionOffsetX } = this.state;
+    const { playerPositionX } = this.state;
     const canvasWidth = this.getWidth();
 
     canvasWidth &&
       height &&
-      this.draw({ width: canvasWidth, height, playerDirectionOffsetX });
+      this.draw({ width: canvasWidth, height, playerPositionX });
 
     return (
       <div
