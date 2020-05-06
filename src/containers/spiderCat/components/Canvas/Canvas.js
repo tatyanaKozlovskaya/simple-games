@@ -8,7 +8,8 @@ class Canvas extends Component {
   constructor() {
     super();
     this.canvas = createRef();
-    this.state = { playerPositionX: 0, items: [] };
+    this.state = { playerPositionX: 0 };
+    this.items = [];
   }
 
   componentDidMount = () => {
@@ -41,26 +42,25 @@ class Canvas extends Component {
   generateItems = () => {
     this.generatorInterval = setInterval(() => {
       const newItem = { ...this.getRandomElement(Object.values(ITEMS)) };
-      const minPositionX = PLAYER.width / 2;
-      const maxPositionX = this.getWidth() - PLAYER.width / 2;
+      const minPositionX = newItem.imgWidth;
+      const maxPositionX = this.getWidth() - newItem.imgWidth;
 
-      newItem.img = this.playerImg;
+      newItem.image = this[newItem.name + 'Img'] || this.playerImg;
       newItem.positionX = this.getRandomNumber(minPositionX, maxPositionX);
       newItem.positionY = 0;
-
-      this.setState({ items: [...this.state.items, newItem] });
+      this.items = [...this.items, newItem];
     }, 3000);
   };
 
   updateItemsPositions = () => {
     this.updatePositionsInterval = setInterval(() => {
-      const newItems = this.state.items.map((el) => {
+      const newItems = this.items.map((el) => {
         el.positionX = el.positionX;
         el.positionY = el.positionY + 0.5;
         return el;
       });
 
-      this.setState({ items: newItems });
+      this.items = newItems;
     }, 3);
   };
 
@@ -147,10 +147,15 @@ class Canvas extends Component {
   };
 
   init = () => {
+    Object.values(ITEMS).forEach((item) => {
+      this[item.name + 'Img'] = new Image();
+      this[item.name + 'Img'].src = item.img || PLAYER.img;
+    });
     this.playerImg = new Image();
     this.playerImg.onload = () => {
       this.drawInterval = setInterval(this.draw, 9);
     };
+
     this.playerImg.src = PLAYER.img;
   };
 
@@ -180,18 +185,17 @@ class Canvas extends Component {
   };
 
   drawItems = () => {
-    const { items } = this.state;
-    items &&
-      items.length &&
-      items.forEach((item) => {
-        const imgWidth = PLAYER.width;
-        const imgHeight = PLAYER.height;
+    this.items &&
+      this.items.length &&
+      this.items.forEach((item) => {
+        const imgWidth = item.imgWidth || PLAYER.width;
+        const imgHeight = item.imgHeight || PLAYER.height;
 
         const dx = item.positionX;
         const dy = item.positionY;
 
         this.ctx.drawImage(
-          item.img,
+          item.image,
           0,
           0,
           imgWidth,
@@ -207,6 +211,7 @@ class Canvas extends Component {
   render() {
     const { height } = this.props;
     const canvasWidth = this.getWidth();
+    console.log('render');
     return (
       <div
         onKeyDown={this.keyDownHandler}
